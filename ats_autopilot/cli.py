@@ -1,6 +1,7 @@
 """Command-line interface for ats-autopilot."""
 from __future__ import annotations
 import argparse
+import sys
 from pathlib import Path
 
 from .profile import Profile
@@ -112,6 +113,14 @@ def cmd_submit(args):
 
 
 def main(argv=None):
+    # Emit UTF-8 regardless of the platform's console/redirect encoding (Windows defaults to
+    # cp1252, which crashes on the emoji/em-dash in our output when piped to a file/cron log).
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
     ap = argparse.ArgumentParser(prog="ats-autopilot",
                                  description="Schema-driven job-application engine with grounded résumés.")
     sub = ap.add_subparsers(dest="cmd", required=True)

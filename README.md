@@ -76,6 +76,19 @@ Every flagged line is either an embellishment to drop, or a *true* fact you shou
 `facts.yaml` — so the audit both catches lies and surfaces gaps in your fact base. You keep
 the sophisticated tailoring; the verifier guarantees nothing false ships.
 
+### Keep the queue full automatically
+
+`scripts/nightly_prep.cmd` runs `prep` across your target boards and appends to `logs/prep.log`
+— so the review queue is always full when you sit down. Schedule it (Windows example):
+
+```bat
+schtasks /Create /TN "ats-autopilot nightly prep" ^
+  /TR "C:\path\to\ats-autopilot\scripts\nightly_prep.cmd" /SC DAILY /ST 06:00 /F
+```
+
+On macOS/Linux, point a cron entry at `ats-autopilot prep --boards ... --limit 20`. It's
+dry-run, so nightly automation only ever *prepares* — submitting stays a deliberate human step.
+
 ## Architecture
 
 ```
