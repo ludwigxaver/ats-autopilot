@@ -26,16 +26,19 @@ def cmd_prep(args):
     eng = _engine()
     tracker = Tracker(DB)
     bundles = eng.prepare(boards, limit=args.limit)
-    print(f"Prepared {len(bundles)} applications (DRY-RUN — nothing submitted):\n")
+    auto = sum(1 for b in bundles if b.route == "auto")
+    print(f"Prepared {len(bundles)} applications — {auto} auto-lane, "
+          f"{len(bundles) - auto} review-lane (DRY-RUN):\n")
     for b in bundles:
-        tag = "★CROWN" if b.crown_jewel else "      "
+        lane = "🔎REVIEW" if b.route == "review" else "  AUTO  "
         status = "READY ✅" if b.ready else f"NEEDS {len(b.unmapped_required)} ⚠️"
-        print(f"{tag} [{status}] {b.key}  {b.schema.job.title}")
+        print(f"[{lane}][{status}] {b.key}  {b.schema.job.title}")
         for n, lab, ft in b.unmapped_required[:3]:
             print(f"        ↳ unmapped ({ft}): {lab[:60]}")
-        tracker.record(b.key, b.schema.job.company, b.schema.job.title,
-                       b.schema.job.url, "prepared", b.crown_jewel)
-    print(f"\nLedger: {DB}")
+        tracker.record(b.key, b.schema.job.ats, b.schema.job.company, b.schema.job.title,
+                       b.schema.job.url, b.route if b.route == "review" else "prepared",
+                       b.crown_jewel)
+    print(f"\nLedger: {DB}   ('ats-autopilot queue' lists the review lane)")
 
 
 def cmd_review(args):
@@ -54,6 +57,39 @@ def cmd_resume(args):
     out = render(resume, profile, args.out)
     print(f"✅ {report.summary()}")
     print(f"Wrote grounded résumé → {out}")
+
+
+def cmd_queue(args):
+    """The manual-apply lane: jobs on ATSs (or crown-jewels) that need a human one-click."""
+    rows = Tracker(DB).by_status("review")
+    if not rows:
+        print("Review queue is empty. Run 'prep' first.")
+        return
+    print(f"REVIEW QUEUE — {len(rows)} jobs to apply to manually (one-click in the browser):\n")
+    for key, ats, company, title, url, crown in rows:
+        mark = "★" if crown else " "
+        print(f"  {mark} [{ats:10}] {title}\n      {url}\n      → sheet: ats-autopilot sheet --job {key}\n")
+
+
+def cmd_sheet(args):
+    """Print a ready-to-paste application sheet for one review-lane job."""
+    ats, company = (args.job.split(":", 1)[0], args.job)  # key is company:job_id
+    # Re-fetch the posting from the ledger to learn its ATS, then re-fill live.
+    row = next((r for r in Tracker(DB).by_status("review") if r[0] == args.job), None)
+    if row is None:
+        print(f"No queued job {args.job}. Run 'prep' / 'queue' first.")
+        raise SystemExit(1)
+    _, ats, company, title, url, _ = row
+    eng = _engine(resume_path=args.resume)
+    from .adapters import JobPosting
+    job = JobPosting(ats=ats, company=company, job_id=args.job.split(":", 1)[1], title=title, url=url)
+    b = eng.fill(ats, job)
+    print(f"APPLICATION SHEET — {title}\nApply at: {url}\nRésumé:   {args.resume or '<attach your résumé>'}\n")
+    print("Fields (copy-paste as needed):")
+    for f in b.schema.fields:
+        val = b.values.get(f.name, "")
+        note = "  ← ATTACH RÉSUMÉ" if f.is_resume else ("" if val else "  ← ANSWER MANUALLY")
+        print(f"  {f.label[:52]:52} : {val}{note}")
 
 
 def cmd_audit(args):
@@ -93,6 +129,14 @@ def main(argv=None):
     p.add_argument("--description", default="")
     p.add_argument("--out", default="out/resume.html")
     p.set_defaults(func=cmd_resume)
+
+    p = sub.add_parser("queue", help="list the manual-apply review lane (Ashby/Workday/crown-jewels)")
+    p.set_defaults(func=cmd_queue)
+
+    p = sub.add_parser("sheet", help="print a ready-to-paste application sheet for one review job")
+    p.add_argument("--job", required=True, help="ledger key, e.g. some-ashby-org:JOBID")
+    p.add_argument("--resume", default="")
+    p.set_defaults(func=cmd_sheet)
 
     p = sub.add_parser("audit", help="audit an external (e.g. apt.ai) résumé against verified facts")
     p.add_argument("--resume", required=True, help="path to .txt/.md/.html/.pdf résumé")

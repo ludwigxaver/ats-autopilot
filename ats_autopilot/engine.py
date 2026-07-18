@@ -20,10 +20,16 @@ class ApplicationBundle:
     values: dict = field(default_factory=dict)
     unmapped_required: list[tuple[str, str, str]] = field(default_factory=list)  # (name,label,type)
     crown_jewel: bool = False
+    review_only: bool = False   # ATS has no public submit path (Ashby/Workday)
 
     @property
     def ready(self) -> bool:
         return not self.unmapped_required
+
+    @property
+    def route(self) -> str:
+        """"review" = manual one-click lane (crown-jewel or review-only ATS); else "auto"."""
+        return "review" if (self.crown_jewel or self.review_only) else "auto"
 
     @property
     def key(self) -> str:
@@ -80,7 +86,8 @@ class Engine:
                 elif f.required and not f.is_resume:
                     unmapped.append((f.name, f.label, f.type))
         return ApplicationBundle(schema=schema, values=values, unmapped_required=unmapped,
-                                 crown_jewel=p.is_crown_jewel(job.company))
+                                 crown_jewel=p.is_crown_jewel(job.company),
+                                 review_only=getattr(adapter, "review_only", False))
 
     def prepare(self, boards: list[tuple[str, str]], limit: int = 10) -> list[ApplicationBundle]:
         """boards = [(ats, company), ...]. Returns prepared bundles (dry-run, nothing sent)."""
@@ -97,6 +104,8 @@ class Engine:
     def submit_one(self, bundle: ApplicationBundle, *, reviewed: bool, dry_run: bool = True) -> dict:
         if bundle.crown_jewel:
             return {"status": "refused", "reason": "crown-jewel employer is review-only"}
+        if bundle.review_only:
+            return {"status": "refused", "reason": f"{bundle.schema.job.ats} has no public submit API — review-only"}
         if not bundle.ready:
             return {"status": "refused", "reason": f"{len(bundle.unmapped_required)} required fields unmapped"}
         if not dry_run and not reviewed:

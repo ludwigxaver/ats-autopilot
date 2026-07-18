@@ -12,10 +12,11 @@ from pathlib import Path
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS applications (
     key          TEXT PRIMARY KEY,   -- company:job_id
+    ats          TEXT NOT NULL DEFAULT '',
     company      TEXT NOT NULL,
     title        TEXT NOT NULL,
     url          TEXT,
-    status       TEXT NOT NULL,      -- prepared | submitted | interview | rejected | offer
+    status       TEXT NOT NULL,      -- prepared | review | submitted | interview | rejected | offer
     crown_jewel  INTEGER NOT NULL DEFAULT 0,
     updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
@@ -38,15 +39,15 @@ class Tracker:
         with self._conn() as c:
             return c.execute("SELECT 1 FROM applications WHERE key=?", (key,)).fetchone() is not None
 
-    def record(self, key: str, company: str, title: str, url: str,
+    def record(self, key: str, ats: str, company: str, title: str, url: str,
                status: str, crown_jewel: bool = False) -> None:
         with self._conn() as c:
             c.execute(
-                "INSERT INTO applications(key,company,title,url,status,crown_jewel) "
-                "VALUES(?,?,?,?,?,?) "
+                "INSERT INTO applications(key,ats,company,title,url,status,crown_jewel) "
+                "VALUES(?,?,?,?,?,?,?) "
                 "ON CONFLICT(key) DO UPDATE SET status=excluded.status, "
                 "updated_at=datetime('now')",
-                (key, company, title, url, status, int(crown_jewel)),
+                (key, ats, company, title, url, status, int(crown_jewel)),
             )
 
     def all(self) -> list[tuple]:
@@ -54,4 +55,12 @@ class Tracker:
             return c.execute(
                 "SELECT key,company,title,status,crown_jewel,updated_at "
                 "FROM applications ORDER BY updated_at DESC"
+            ).fetchall()
+
+    def by_status(self, status: str) -> list[tuple]:
+        with self._conn() as c:
+            return c.execute(
+                "SELECT key,ats,company,title,url,crown_jewel FROM applications "
+                "WHERE status=? ORDER BY crown_jewel DESC, company",
+                (status,),
             ).fetchall()

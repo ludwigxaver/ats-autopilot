@@ -34,6 +34,7 @@ def _get_json(url: str):
 
 
 class LeverAdapter:
+    review_only = False
     name = "lever"
 
     def list_jobs(self, company: str) -> list[JobPosting] | None:

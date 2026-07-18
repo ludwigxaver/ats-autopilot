@@ -33,6 +33,10 @@ class ApplicationSchema:
 class ATSAdapter(Protocol):
     """Every ATS backend implements these three operations."""
     name: str
+    # True for ATSs with no public application-submission path (Ashby, Workday). Their jobs
+    # are discovered and prepared, but routed to the review queue for a manual one-click apply
+    # rather than auto-submitted.
+    review_only: bool
 
     def list_jobs(self, company: str) -> list[JobPosting] | None:
         """All postings for a company board. None if the board token doesn't exist."""

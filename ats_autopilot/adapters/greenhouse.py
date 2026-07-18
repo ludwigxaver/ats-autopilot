@@ -24,6 +24,7 @@ def _get_json(url: str):
 
 
 class GreenhouseAdapter:
+    review_only = False
     name = "greenhouse"
 
     def list_jobs(self, company: str) -> list[JobPosting] | None:

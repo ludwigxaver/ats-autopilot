@@ -91,15 +91,24 @@ ats_autopilot/
 
 ## Supported platforms
 
-| ATS | Discover | Read schema | Submit |
-|---|:--:|:--:|:--:|
-| Greenhouse | ✅ | ✅ | ✅ (public form POST) |
-| Lever | ✅ | ✅ | 🔬 experimental |
-| Ashby | ✅ | ✅ | ⏳ planned |
-| Workday / LinkedIn | — | — | ❌ no public schema → review-queue only |
+| ATS | Discover | Read schema | Submit | Lane |
+|---|:--:|:--:|:--:|:--|
+| Greenhouse | ✅ | ✅ | ✅ (public form POST) | auto |
+| Lever | ✅ | ✅ | 🔬 experimental | auto |
+| Ashby | ✅ | standard form | ❌ no public submit API | **review-queue** |
+| Workday | 🔬 best-effort | standard form | ❌ account + wizard | **review-queue** |
+| LinkedIn | — | — | — | not supported |
 
-Boards without a public application schema are never auto-handled; they're surfaced to the
-review queue for a manual one-click, by design.
+Boards without a public submission path (Ashby, Workday) — and any **crown-jewel** employer —
+are never auto-submitted. They route to the **review queue** for a manual one-click:
+
+```bash
+ats-autopilot queue                      # the manual-apply to-do list, with apply URLs
+ats-autopilot sheet --job ramp:abc-123   # a ready-to-paste application sheet for one job
+```
+
+So the engine has two lanes by design: **auto** (public-API ATSs, non-crown) and **review**
+(everything irreversible-sensitive), and it never blurs them.
 
 ## Safety & scope
 

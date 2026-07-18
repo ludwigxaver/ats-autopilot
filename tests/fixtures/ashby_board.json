@@ -1,0 +1,11 @@
+{
+  "apiVersion": "1",
+  "jobs": [
+    {"id": "abc-123", "title": "Operations Automation Engineer",
+     "location": "Remote - US", "isRemote": true,
+     "jobUrl": "https://jobs.ashbyhq.com/example/abc-123"},
+    {"id": "def-456", "title": "Trade Support Analyst",
+     "location": "New York", "isRemote": false,
+     "jobUrl": "https://jobs.ashbyhq.com/example/def-456"}
+  ]
+}
