@@ -57,6 +57,23 @@ ats-autopilot review
 ats-autopilot submit --job coinbase:8020892 --i-have-reviewed
 ```
 
+### Using an AI-tailored résumé (e.g. apt.ai) safely
+
+Third-party tools like [apt.ai](https://tryapt.ai) write beautifully tailored résumés — but
+they're LLM-generated and can embellish. Instead of trusting them, **gate their output**:
+
+```bash
+# audit an apt.ai résumé against your verified facts; flags anything it invented
+ats-autopilot audit --resume ~/Downloads/apt_coinbase_resume.pdf
+
+# or emit a grounded copy with fabricated lines removed
+ats-autopilot audit --resume apt_resume.txt --clean --out out/coinbase.grounded.txt
+```
+
+Every flagged line is either an embellishment to drop, or a *true* fact you should add to
+`facts.yaml` — so the audit both catches lies and surfaces gaps in your fact base. You keep
+the sophisticated tailoring; the verifier guarantees nothing false ships.
+
 ## Architecture
 
 ```
