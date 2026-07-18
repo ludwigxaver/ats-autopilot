@@ -1,0 +1,125 @@
+# Verified fact base — the ONLY source material for a generated résumé.
+# Curated by hand from a real résumé. Every entry is true. The engine may select,
+# reorder, and rephrase these; it may never invent anything not present here.
+# Copy to config/facts.yaml and edit with your own verified facts.
+
+facts:
+  # ---- summary ----
+  - id: sum_core
+    section: summary
+    tags: [automation, operations, crypto, digital-assets, ai, risk, trade-lifecycle]
+    text: >
+      Automation and systems engineer with 8 years of institutional trade-operations
+      experience at J.P. Morgan Private Bank, who builds AI-augmented, self-healing
+      operations and trading infrastructure grounded in deep trade-lifecycle, reconciliation,
+      settlement, and controls knowledge.
+    employer: J.P. Morgan Private Bank
+
+  # ---- independent project ----
+  - id: proj_hermes
+    section: project
+    tags: [ai, automation, crypto, trading, risk, python, orchestration, engineering]
+    title: Autonomous Trading Systems Engineer (Self-Directed)
+    dates: 2024–Present
+    text: >
+      Architected and operate a fully autonomous, AI-augmented systematic crypto-futures
+      trading and operations platform built solo on a self-built four-node server cluster,
+      spanning orchestration, risk, execution, and operations layers.
+  - id: proj_recon
+    section: project
+    tags: [reconciliation, audit, controls, crypto, data]
+    text: >
+      Built an exchange-reconciled book of record with a tamper-evident, hash-chained audit
+      ledger, where every fill, state change, and config edit ties to a single source-of-truth
+      ledger cross-checked against independent logs.
+  - id: proj_risk
+    section: project
+    tags: [risk, controls, automation, engineering]
+    text: >
+      Designed a layered, fail-closed control stack — exposure caps, volatility-targeted
+      sizing, drawdown and velocity halts, staleness watchdogs, and hard kill-switches — where
+      every gate defaults to flat on failure and arming risk requires explicit human action.
+  - id: proj_llm
+    section: project
+    tags: [ai, llm, orchestration, automation]
+    text: >
+      Built role-separated multi-agent LLM orchestration (research, operations, adversarial
+      verification) that monitors system health and investigates breaks, with a hard governance
+      rule that no agent can promote a change to production or touch capital.
+  - id: proj_validation
+    section: project
+    tags: [validation, data, quant, rigor]
+    text: >
+      Applied walk-forward analysis, Monte-Carlo, multiple-testing correction, and random-entry
+      deflators to every candidate process, rejecting over 90% of candidate signals; published a
+      companion open-source validation toolkit.
+
+  # ---- professional experience ----
+  - id: jpm_pi
+    section: experience
+    employer: J.P. Morgan Private Bank
+    title: Portfolio Implementation Specialist / Senior Associate (AVP-level)
+    dates: 2021–Present
+    tags: [automation, operations, monitoring, portfolio, excel, controls]
+    text: >
+      Built Excel tools and macros automating recurring portfolio-implementation and monitoring
+      tasks, and engineered model-drift and strategy-deviation monitoring and break-resolution
+      workflows; owned new-account investing and daily cash and security activity supporting a
+      20% increase in new-client acquisition.
+  - id: jpm_fi
+    section: experience
+    employer: J.P. Morgan Private Bank
+    title: Fixed Income Trade Support
+    dates: 2020–2021
+    tags: [trade-support, settlement, reconciliation, fixed-income]
+    text: >
+      Systematized trade-break remediation, live-trade issue resolution, and trade-economics
+      validation across the end-to-end lifecycle of booking, administration, and settlement.
+  - id: jpm_icg
+    section: experience
+    employer: J.P. Morgan Private Bank
+    title: Interest Control Governance
+    dates: 2020
+    tags: [reconciliation, controls, audit, process-improvement]
+    text: >
+      Re-engineered sub-ledger reconciliation into a paperless workflow that cut task time by
+      roughly 75%, and authored runbooks and SOPs as the internal-audit point of contact for
+      money-market cash reconciliation.
+  - id: jpm_eq
+    section: experience
+    employer: J.P. Morgan Private Bank
+    title: Equity Trade Support
+    dates: 2018–2020
+    tags: [reconciliation, equities, exceptions, acats]
+    text: >
+      Drove exception root-cause analysis and order-reconciliation improvements for equity trade
+      corrections and ACATS transfers.
+
+  # ---- certifications & education ----
+  - id: cert_series99
+    section: certification
+    tags: [operations, compliance, certification]
+    text: FINRA Series 99 — Operations Professional (2018).
+  - id: cert_sixsigma
+    section: certification
+    tags: [process-improvement, six-sigma, controls]
+    text: Six Sigma Black Belt (2020).
+  - id: edu_mba
+    section: education
+    employer: American InterContinental University
+    tags: [education, business]
+    text: MBA in International Business, BBA in Accounting, and AA in Business Administration from American InterContinental University.
+
+  # ---- skills (atomic, true) ----
+  - id: skill_langs
+    section: skill
+    tags: [python, sql, engineering, automation]
+    text: "Languages and data: Python, SQL, DuckDB, Excel macros (VBA), Alteryx, Pine Script."
+  - id: skill_apis
+    section: skill
+    tags: [crypto, apis, data, engineering]
+    text: "Markets and APIs: Coinbase API, exchange REST and WebSocket APIs, real-time data pipelines, transaction-cost analysis."
+  - id: skill_ops
+    section: skill
+    tags: [operations, reconciliation, controls, audit]
+    text: "Operations: reconciliation, settlement, trade-break remediation, controls and audit readiness, SOP and runbook authoring."

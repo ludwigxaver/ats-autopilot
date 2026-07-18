@@ -1,0 +1,28 @@
+# Declarative screening-question answers. The engine matches each question's label against
+# these patterns (case-insensitive, first match wins) and fills the answer. Anything with no
+# match is surfaced as "unmapped" rather than guessed. Edit freely — no code changes needed.
+rules:
+  - match: "18 years|at least 18|age of 18"
+    answer: "Yes"
+  - match: "authoriz.*work|legally authorized|right to work"
+    answer: "Yes"
+  - match: "require spons|need spons|visa spons"
+    answer: "No"
+  - match: "previously.*employed|former employee|worked (at|for) (this|the) (company|firm)"
+    answer: "No"
+  - match: "government official|public official|close relative.*government"
+    answer: "No"
+  - match: "referred to this|were you referred"
+    answer: "No"
+  - match: "est hours|eastern time|able to work.*hours"
+    answer: "Yes"
+  - match: "ai tools|artificial intelligence"
+    answer: "Yes"
+  - match: "confirm receipt|acknowledge|have you read|global.*policy"
+    answer: "Yes"
+  - match: "financial services"
+    answer: "Yes"
+  - match: "understanding of crypto|understand.*cryptocurrenc|basic to intermediate"
+    answer: "Yes"
+  - match: "how did you hear"
+    answer: "Company website"
