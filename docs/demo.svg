@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="510" viewBox="0 0 880 510" font-family="SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace" font-size="14.5">
+  <rect x="0.5" y="0.5" width="879" height="509" rx="10" fill="#0d1117" stroke="#30363d"/>
+  <circle cx="26" cy="26" r="6.5" fill="#ff5f56"/>
+  <circle cx="48" cy="26" r="6.5" fill="#febc2e"/>
+  <circle cx="70" cy="26" r="6.5" fill="#28c840"/>
+  <text x="440" y="31" text-anchor="middle" fill="#7d8590" font-size="13">ats-autopilot — grounded, multi-ATS job applications</text>
+  <line x1="0" y1="52" x2="880" y2="52" stroke="#21262d"/>
+
+  <text x="22" y="84"><tspan fill="#3fb950">$ </tspan><tspan fill="#58a6ff">ats-autopilot </tspan><tspan fill="#c9d1d9">resume --title "Crypto Ops Automation Engineer"</tspan></text>
+  <text x="22" y="107"><tspan fill="#3fb950">✓ GROUNDED</tspan><tspan fill="#8b949e"> — every claim traces to the verified fact base.</tspan></text>
+  <text x="22" y="130" fill="#8b949e">  Wrote grounded résumé → out/resume.html</text>
+
+  <text x="22" y="176"><tspan fill="#3fb950">$ </tspan><tspan fill="#58a6ff">ats-autopilot </tspan><tspan fill="#c9d1d9">audit --resume apt_coinbase_resume.pdf</tspan></text>
+  <text x="22" y="199" fill="#8b949e">  AUDIT: 4/6 lines grounded, 2 flagged.</text>
+  <text x="22" y="222"><tspan fill="#f85149">  ✗ </tspan><tspan fill="#c9d1d9">Drove a </tspan><tspan fill="#ff7b72">400%</tspan><tspan fill="#c9d1d9"> improvement in settlement throughput.  </tspan><tspan fill="#8b949e">← invented number</tspan></text>
+  <text x="22" y="245"><tspan fill="#f85149">  ✗ </tspan><tspan fill="#c9d1d9">Senior Quant at </tspan><tspan fill="#ff7b72">Two Sigma Investments</tspan><tspan fill="#c9d1d9">.  </tspan><tspan fill="#8b949e">← fabricated employer</tspan></text>
+  <text x="22" y="268" fill="#8b949e">  kept every true line — caught exactly what the AI invented</text>
+
+  <text x="22" y="314"><tspan fill="#3fb950">$ </tspan><tspan fill="#58a6ff">ats-autopilot </tspan><tspan fill="#c9d1d9">prep --boards consensys,coinbase,ashby:ramp</tspan></text>
+  <text x="22" y="337"><tspan fill="#c9d1d9">  Prepared 6 applications — </tspan><tspan fill="#3fb950">2 auto</tspan><tspan fill="#c9d1d9">, </tspan><tspan fill="#d29922">4 review</tspan><tspan fill="#c9d1d9"> (dry-run)</tspan></text>
+  <text x="22" y="360"><tspan fill="#3fb950">  [ AUTO ] </tspan><tspan fill="#8b949e">consensys:7821125  </tspan><tspan fill="#c9d1d9">Principal Mobile Engineer — MetaMask</tspan></text>
+  <text x="22" y="383"><tspan fill="#d29922">  [REVIEW] </tspan><tspan fill="#8b949e">coinbase:7822885  </tspan><tspan fill="#c9d1d9">Accounting Manager, GL Operations  </tspan><tspan fill="#d29922">★ crown-jewel</tspan></text>
+
+  <text x="22" y="429"><tspan fill="#3fb950">$ </tspan><tspan fill="#58a6ff">ats-autopilot </tspan><tspan fill="#c9d1d9">queue</tspan></text>
+  <text x="22" y="452" fill="#c9d1d9">  REVIEW QUEUE — 4 jobs to apply to manually (one-click)</text>
+  <text x="22" y="475"><tspan fill="#d29922">  ★ </tspan><tspan fill="#8b949e">[greenhouse] </tspan><tspan fill="#c9d1d9">Accounting Manager  </tspan><tspan fill="#8b949e">→ sheet: ats-autopilot sheet --job coinbase:7822885</tspan></text>
+</svg>

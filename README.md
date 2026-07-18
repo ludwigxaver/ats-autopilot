@@ -2,6 +2,8 @@
 
 **A schema-driven, multi-ATS job-application engine with human-in-the-loop safety.**
 
+![ats-autopilot demo — grounded résumés and two-lane job applications](docs/demo.svg)
+
 Most job applications don't live on the company's website — they run on a handful of
 Applicant Tracking Systems (Greenhouse, Lever, Ashby, …), and those systems expose the
 *entire application form as structured data over a public API*. `ats-autopilot` reads that
