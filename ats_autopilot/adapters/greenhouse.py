@@ -3,8 +3,9 @@ Greenhouse adapter — uses the public Job Board API.
 
   list_jobs   GET  boards-api.greenhouse.io/v1/boards/{token}/jobs
   get_schema  GET  boards-api.greenhouse.io/v1/boards/{token}/jobs/{id}?questions=true
-  submit      POST boards.greenhouse.io/embed/job_app  (the same unauthenticated multipart
-              form a candidate's browser posts; honored only when dry_run=False)
+  submit      Not available publicly. Greenhouse's applications API requires the employer's
+              secret Board API key (an unauthenticated POST returns 401), and the careers
+              pages are custom SPAs. Submission is therefore a human step (review queue).
 """
 from __future__ import annotations
 import json
@@ -61,13 +62,11 @@ class GreenhouseAdapter:
 
     def submit(self, job: JobPosting, values: dict, resume_path: str, *, dry_run: bool = True) -> dict:
         if dry_run:
-            return {"status": "dry_run", "would_post_fields": sorted(values),
-                    "resume": resume_path, "endpoint": "boards.greenhouse.io/embed/job_app"}
-        # Real submission intentionally left as an explicit, reviewed step. Building the
-        # multipart POST here would let the engine fire irreversible applications; that is
-        # gated at the CLI (`submit --i-have-reviewed`, crown-jewels refused) and wired in a
-        # deployment where the operator has accepted responsibility for the send.
+            return {"status": "dry_run", "would_prepare_fields": sorted(values), "resume": resume_path}
+        # There is no public submission endpoint: Greenhouse's applications API requires the
+        # employer's secret Board API key (unauthenticated POST → 401). Submission is a human
+        # step — use `queue` / `sheet` and apply on the employer's site.
         raise NotImplementedError(
-            "Live Greenhouse submit is enabled per-deployment after human review; "
-            "see docs. dry_run=True is the safe default."
+            "Greenhouse has no public submit API (needs the employer's key). "
+            "Prepare the application and submit it via the review queue."
         )

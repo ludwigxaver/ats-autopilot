@@ -106,24 +106,27 @@ ats_autopilot/
 
 ## Supported platforms
 
-| ATS | Discover | Read schema | Submit | Lane |
-|---|:--:|:--:|:--:|:--|
-| Greenhouse | ✅ | ✅ | ✅ (public form POST) | auto |
-| Lever | ✅ | ✅ | 🔬 experimental | auto |
-| Ashby | ✅ | standard form | ❌ no public submit API | **review-queue** |
-| Workday | 🔬 best-effort | standard form | ❌ account + wizard | **review-queue** |
-| LinkedIn | — | — | — | not supported |
+| ATS | Discover | Read schema | Submit |
+|---|:--:|:--:|:--:|
+| Greenhouse | ✅ | ✅ | employer API key only ¹ |
+| Lever | ✅ | ✅ | employer API key only ¹ |
+| Ashby | ✅ | standard form | no public endpoint |
+| Workday | 🔬 best-effort | standard form | no public endpoint |
+| LinkedIn | — | — | — |
 
-Boards without a public submission path (Ashby, Workday) — and any **crown-jewel** employer —
-are never auto-submitted. They route to the **review queue** for a manual one-click:
+**¹ No ATS exposes a public application-submission endpoint.** Greenhouse's applications API
+returns `401` without the employer's secret key, and the careers pages are custom SPAs. So the
+public APIs are *read-only*: `ats-autopilot` does discovery, schema-driven preparation, grounded
+résumés, and tracking — and **submission stays a human step**. Every prepared job lands in a
+review queue with a copy-paste-ready sheet:
 
 ```bash
-ats-autopilot queue                      # the manual-apply to-do list, with apply URLs
+ats-autopilot queue                      # the to-do list, with apply URLs
 ats-autopilot sheet --job ramp:abc-123   # a ready-to-paste application sheet for one job
 ```
 
-So the engine has two lanes by design: **auto** (public-API ATSs, non-crown) and **review**
-(everything irreversible-sensitive), and it never blurs them.
+This is a deliberate boundary, not a missing feature: the tool automates everything *up to* the
+irreversible action — filling, tailoring, verifying, tracking — and keeps a human on the submit.
 
 ## Safety & scope
 
